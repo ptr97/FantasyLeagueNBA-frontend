@@ -13,12 +13,18 @@
                 :players.sync="myPlayers"
                 @playerChecked="oldPlayerChecked"
             />
-            
-            <button @click="saveTeam" class="ui button right floated primary">Save lineup</button>
-            <button @click="deletePlayers" class="ui button primary">Delete</button>
-            <button @click="addPlayers" class="ui button primary">Add</button>
         </div>
-        <div class="ui divider"></div>
+        <div class="ui segment">
+            <div class="ui three bottom attached buttons">
+                <button @click="deletePlayers" class="ui button red">Delete</button>
+                <button @click="addPlayers" class="ui button green">Add</button>
+            </div>
+            <div class="ui divider"></div>
+            <div>
+                <button @click="saveTeam" class="ui huge fluid button primary">Save lineup</button>
+            </div>
+        </div>
+            
         <div class="ui segment">
             <h2 class="ui medium dividing header">Players to choose</h2>
 
@@ -139,6 +145,7 @@ export default {
                         message: response.data.message,
                         type: 'success'
                     })
+                    this.$router.push('/my-profile')
                 })
                 .catch(error => {
                     this.notification = Object.assign({}, this.notification, {

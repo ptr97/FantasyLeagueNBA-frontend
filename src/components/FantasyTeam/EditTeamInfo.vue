@@ -1,6 +1,6 @@
 <template>
 <div class="ui stackable grid container">
-    <div class="ten wide column">
+    <div class="fourteen wide column">
         <div class="ui segment">
             <h2 class="ui dividing header">Edit team info</h2>
 

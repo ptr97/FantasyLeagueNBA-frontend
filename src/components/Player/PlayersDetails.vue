@@ -14,7 +14,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="player in players" :key="player.id_zawodnika" :player="player" :class="{'success': (player.id_zawodnika == checkedId)}" @click="playerChecked(player.id_zawodnika)" >
+                <tr v-for="player in players" :key="player.id_zawodnika" :player="player" :class="{'active': (player.id_zawodnika == checkedId)}" @click="playerChecked(player.id_zawodnika)" >
                     <td>{{ player.imie_zawodnika }}</td>
                     <td>{{ player.nazwisko_zawodnika }}</td>
                     <td>{{ player.pozycja_zawodnika }}</td>
@@ -26,7 +26,6 @@
                 </tr>
             </tbody>
         </table>
-        <h2>Player ID: {{ checkedId }}</h2>
     </div>
 </template>
 
@@ -53,14 +52,6 @@
 
                 this.$emit('playerChecked', id)
             },
-            toggle: function (clicked) {
-                clicked = !clicked
-    }
         },
-        computed: {
-            classObj() {
-                color: player.id_zawodnika === checkedId ? "red" : "black"
-            }
-        }
     }
 </script>

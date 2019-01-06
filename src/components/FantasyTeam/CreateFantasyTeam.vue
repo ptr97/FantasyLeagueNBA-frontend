@@ -1,14 +1,13 @@
 <template>
 <div class="ui stackable grid container">
-    <div class="ten wide column">
-        <div class="ui segment">
-            <Notification
-                :message="notification.message"
-                :type="notification.type"
-                v-if="notification.message"
-            />
-            <button @click="saveTeam" class="ui button primary">Save Team</button>
-        </div>
+    <div class="fourteen wide column">
+        
+        <Notification
+            :message="notification.message"
+            :type="notification.type"
+            v-if="notification.message"
+        />
+        
         <div class="ui segment">
             <h2 class="ui dividing header">Team info</h2>
 
@@ -29,11 +28,18 @@
                 :players.sync="myPlayers"
                 @playerChecked="oldPlayerChecked"
             />
-            
-            <button @click="deletePlayers" class="ui button primary">Delete</button>
-            <button @click="addPlayers" class="ui button primary">Add</button>
         </div>
-        <div class="ui divider"></div>
+        <div class="ui segment">
+            <div class="ui three bottom attached buttons">
+                <button @click="deletePlayers" class="ui button red">Delete</button>
+                <button @click="addPlayers" class="ui button green">Add</button>
+            </div>
+            <div class="ui divider"></div>
+            <div>
+                <button @click="saveTeam" class="ui huge fluid button primary">Save Team</button>
+            </div>
+        </div>
+
         <div class="ui segment">
             <h2 class="ui medium dividing header">Players to choose</h2>
 
@@ -41,10 +47,6 @@
                 :players.sync="allPlayers"
                 @playerChecked="newPlayerChecked"
             />
-            <div>
-                <button @click="nextPage" class="ui button primary right floated">Next page</button>
-                <button @click="previousPage" class="ui button primary">Previous Page</button>
-            </div>
         </div>
     </div>
 </div>
@@ -97,7 +99,6 @@ export default {
         },
         addPlayers () {
             const playerToAdd = this.allPlayers.filter(pl => pl.id_zawodnika === this.newPlayerId)[0]
-            console.log(playerToAdd)
             this.myPlayers.push(playerToAdd)
         },
         fetchMyPlayers () {
@@ -136,8 +137,7 @@ export default {
 
         saveTeam () {
             const token = localStorage.getItem('token')
-            console.log(this.myPlayers)
-
+            
             axios
                 .post(
                     '/fantasy-teams',
@@ -156,6 +156,7 @@ export default {
                         message: response.data.message,
                         type: 'success'
                     })
+                    this.$router.push('/my-profile')
                 })
                 .catch(error => {
                     this.notification = Object.assign({}, this.notification, {
