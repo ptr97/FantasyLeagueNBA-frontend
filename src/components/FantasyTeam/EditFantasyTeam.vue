@@ -82,7 +82,6 @@ export default {
         },
         deletePlayers () {
             const playerToDelete = this.myPlayers.map(pl => pl.id_zawodnika).indexOf(this.oldPlayerId)
-            console.log(playerToDelete)
             this.$delete(this.myPlayers, playerToDelete)
         },
         addPlayers () {

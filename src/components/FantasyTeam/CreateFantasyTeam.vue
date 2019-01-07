@@ -47,6 +47,10 @@
                 :players.sync="allPlayers"
                 @playerChecked="newPlayerChecked"
             />
+            <div>
+                <button @click="nextPage" class="ui button primary right floated">Next page</button>
+                <button @click="previousPage" class="ui button primary">Previous Page</button>
+            </div>
         </div>
     </div>
 </div>
@@ -94,7 +98,6 @@ export default {
         },
         deletePlayers () {
             const playerToDelete = this.myPlayers.map(pl => pl.id_zawodnika).indexOf(this.oldPlayerId)
-            console.log(playerToDelete)
             this.$delete(this.myPlayers, playerToDelete)
         },
         addPlayers () {
