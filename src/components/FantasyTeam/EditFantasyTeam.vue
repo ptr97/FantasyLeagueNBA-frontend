@@ -86,7 +86,6 @@ export default {
         },
         addPlayers () {
             const playerToAdd = this.allPlayers.filter(pl => pl.id_zawodnika === this.newPlayerId)[0]
-            console.log(playerToAdd)
             this.myPlayers.push(playerToAdd)
         },
         fetchMyPlayers () {
@@ -125,7 +124,6 @@ export default {
 
         saveTeam () {
             const token = localStorage.getItem('token')
-            console.log(this.myPlayers)
 
             axios
                 .put(
