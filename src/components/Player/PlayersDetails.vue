@@ -18,7 +18,7 @@
                     <td>{{ player.imie_zawodnika }}</td>
                     <td>{{ player.nazwisko_zawodnika }}</td>
                     <td>{{ player.pozycja_zawodnika }}</td>
-                    <td>{{ player.zarobki_zawodnika }}</td>
+                    <td>{{ player.wartosc_kontraktu || player.zarobki_zawodnika }}</td>
                     <td>{{ player.ppg }}</td>
                     <td>{{ player.apg }}</td>
                     <td>{{ player.rpg }}</td>
@@ -45,11 +45,12 @@
                 checkedId: '',
             }
         },
+        computed: {
+
+        },
         methods: {
             playerChecked (id) {
                 this.checkedId = id
-                // console.log(??? === checkedId)
-
                 this.$emit('playerChecked', id)
             },
         },
