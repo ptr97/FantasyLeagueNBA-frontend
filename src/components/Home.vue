@@ -42,7 +42,7 @@
                 </div>
                 <div class="five wide column">
                     <div class="ui segment">
-                        <h2 class="ui medium dividing header">Asists</h2>
+                        <h2 class="ui medium dividing header">Assists</h2>
                         <Players
                             :players.sync="asistsLeaders"
                         />

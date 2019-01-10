@@ -6,8 +6,14 @@
             :type="notification.type"
             v-if="notification.message"
         />
+        <div v-if="this.myPlayers.length > 0" class="ui segment">
+            <i v-if="this.salary <= 440" class="green check icon"></i>
+            <i v-if="this.salary > 440" class="red x icon"></i>
+                Wartość kontraktów zawodników w koszyku: {{ this.salary }}$
+        </div>
         <div class="ui segment">
             <h2 class="ui medium dividing header">Lineup</h2>
+            
 
             <PlayersDetails
                 :players.sync="myPlayers"
@@ -16,12 +22,12 @@
         </div>
         <div class="ui segment">
             <div class="ui three bottom attached buttons">
-                <button @click="deletePlayers" class="ui button red">Delete</button>
-                <button @click="addPlayers" class="ui button green">Add</button>
+                <button @click="deletePlayers" class="ui button red"><i class="trash icon"></i>Delete</button>
+                <button @click="addPlayers" class="ui button green"><i class="plus icon"></i>Add</button>
             </div>
             <div class="ui divider"></div>
             <div>
-                <button @click="saveTeam" class="ui huge fluid button primary">Save lineup</button>
+                <button @click="saveTeam" class="ui huge fluid button primary"><i class="save icon"></i>Save lineup</button>
             </div>
         </div>
             
@@ -58,6 +64,7 @@ export default {
             allPlayersPage: 1,
             oldPlayerId: '',
             newPlayerId: '',
+            salary: '',
             notification: {
                 message: '',
                 type: ''
@@ -73,7 +80,16 @@ export default {
         this.fetchMyPlayers()
         this.fetchPlayers()
     },
+    computed: {
+        
+    },
     methods: {
+        sumSalary() {
+            console.log(this.myPlayers)
+            this.salary = this.myPlayers.map(player => {
+                return (player.wartosc_kontraktu || player.zarobki_zawodnika)
+            }).reduce((p1, p2) => {return p1 + p2})
+        },
         oldPlayerChecked (id) {
             this.oldPlayerId = id
         },
@@ -83,10 +99,12 @@ export default {
         deletePlayers () {
             const playerToDelete = this.myPlayers.map(pl => pl.id_zawodnika).indexOf(this.oldPlayerId)
             this.$delete(this.myPlayers, playerToDelete)
+            this.sumSalary()
         },
         addPlayers () {
             const playerToAdd = this.allPlayers.filter(pl => pl.id_zawodnika === this.newPlayerId)[0]
             this.myPlayers.push(playerToAdd)
+            this.sumSalary()
         },
         fetchMyPlayers () {
             const token = localStorage.getItem('token')
@@ -99,6 +117,7 @@ export default {
                 })
                 .then(response => {
                     this.myPlayers = response.data.players
+                    this.sumSalary()
                 })
         },
 
@@ -146,7 +165,7 @@ export default {
                 })
                 .catch(error => {
                     this.notification = Object.assign({}, this.notification, {
-                        message: error.response.data.message,
+                        message: error.response.data.message + ' ' + error.response.data.hint,
                         type: 'error'
                     })
                 })

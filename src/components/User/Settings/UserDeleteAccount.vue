@@ -11,7 +11,7 @@
                 :type="notification.type"
                 v-if="notification.message"
             />
-            <button class="ui button primary" @click.prevent="deleteAccount">Delete account</button>
+            <button class="ui button primary" @click.prevent="deleteAccount"><i class="trash icon"></i>Delete account</button>
         </div>
     </div>
 </div>
