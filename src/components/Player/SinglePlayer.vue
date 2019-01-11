@@ -6,7 +6,7 @@
                 <thead>
                     <tr>
                         <th class="left aligned">
-                            <img class="ui small circular image" src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm">
+                            <img class="ui small circular image" :src="this.photo">
                         </th>
                         <th class="left aligned">
                             <h1>{{ this.fullName }}</h1>
@@ -98,6 +98,9 @@
             fullName() {
                 return this.player.imie_zawodnika + ' ' + this.player.nazwisko_zawodnika + ' #' + this.player.numer_koszulki
             },
+            photo() {
+                return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.player.id_zawodnika}.png`
+            }
         },
     }
 </script>

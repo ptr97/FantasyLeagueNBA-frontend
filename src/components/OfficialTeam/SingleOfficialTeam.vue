@@ -6,7 +6,7 @@
                 <thead>
                     <tr>
                         <th class="left aligned">
-                            <img class="ui small rounded image" src="/static/nba-logo.png">
+                            <img class="ui small rounded image" :src="this.logo">
                         </th>
                         <th class="left aligned">
                             <h1>{{ this.team.nazwa_oficjalnego_zespolu }}</h1>
@@ -78,6 +78,11 @@
         created () {
             this.fetchTeam()
             this.fetchPlayers()
+        },
+        computed: {
+            logo() {
+                return `https://www.nba.com/assets/logos/teams/primary/web/${this.team.kod_oficjalnego_zespolu}.svg`
+            }
         },
         methods: {
             fetchTeam () {

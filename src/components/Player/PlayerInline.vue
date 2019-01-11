@@ -4,7 +4,7 @@
             <tbody>
                 <tr @click="showPlayerDetails">
                     <th>
-                        <img class="ui mini circular image" src="https://www.gravatar.com/avatar/default?s=200&r=pg&d=mm">
+                        <img class="ui mini circular image" :src="this.photo">
                     </th>
                     <th class="center aligned">
                         {{ this.fullName }}
@@ -27,10 +27,18 @@
                 required: true
             },
         },
+        // data() {
+        //     return {
+        //         photo: `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.player.id_zawodnika}.png`
+        //     }
+        // },
         computed: {
             fullName() {
                 return this.player.imie_zawodnika + ' ' + this.player.nazwisko_zawodnika
             },
+            photo() {
+                return `https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${this.player.id_zawodnika}.png`
+            }
         },
         methods: {
             showPlayerDetails () {

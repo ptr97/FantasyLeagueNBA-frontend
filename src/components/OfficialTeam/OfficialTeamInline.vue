@@ -4,7 +4,7 @@
             <tbody>
                 <tr @click="showTeamDetails">
                     <th>
-                        <img class="ui mini rounded image" src="/static/nba-logo.png">
+                        <img class="ui mini rounded image" :src="this.logo">
                     </th>
                     <th class="center aligned">
                         {{ this.team.nazwa_oficjalnego_zespolu }}
@@ -27,7 +27,16 @@
                 required: true
             },
         },
-        
+        // data() {
+        //     return {
+        //         logo: `https://www.nba.com/assets/logos/teams/primary/web/${this.team.kod_oficjalnego_zespolu}.svg`
+        //     }
+        // },
+        computed: {
+            logo() {
+                return `https://www.nba.com/assets/logos/teams/primary/web/${this.team.kod_oficjalnego_zespolu}.svg`
+            }
+        },
         methods: {
             showTeamDetails () {
                 this.$router.push(`/official-teams/${this.team.id_oficjalnego_zespolu}`)
