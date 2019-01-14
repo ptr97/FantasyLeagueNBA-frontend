@@ -4,12 +4,14 @@
         <router-link class="header item" to="/">NBA Fantasy League</router-link>
         <div class="right menu" v-if="ifLogged">
             <router-link class="item" to="/"><i class="home icon"></i></router-link>
+            <router-link class="item" to="/players-offline">NBA Players</router-link>
             <router-link class="item" to="/my-profile">Profile</router-link>
             <router-link class="item" to="/settings/profile">Settings</router-link>
             <a class="item" @click="logout"><i class="sign out icon"></i></a>
         </div>
         <div class="right menu" v-if="!ifLogged">
             <router-link class="item" to="/"><i class="home icon"></i></router-link>
+            <router-link class="item" to="/players-offline">NBA Players</router-link>
             <router-link class="item" to="/login">LogIn</router-link>
             <router-link class="item" to="/signup">SignUp</router-link>
         </div>

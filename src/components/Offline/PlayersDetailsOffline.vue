@@ -2,16 +2,16 @@
     <div class="ui feed">
         <table class="ui red selectable padded table">
             <thead>
-                <tr>
+                <tr @click="sort($event)">
                     <td>First Name</td>
                     <td>Last Name</td>
                     <td>Position</td>
                     <td>Salary</td>
-                    <td>PPG</td>
-                    <td>APG</td>
-                    <td>RPG</td>
-                    <td>SPG</td>
-                    <td>TPG</td>
+                    <td class="sortable">PPG</td>
+                    <td class="sortable">APG</td>
+                    <td class="sortable">RPG</td>
+                    <td class="sortable">SPG</td>
+                    <td class="sortable">TPG</td>
                 </tr>
             </thead>
             <tbody>
@@ -45,6 +45,7 @@ export default {
         data() {
             return {
                 checkedId: '',
+                desc: false,
             }
         },
         computed: {
@@ -53,8 +54,22 @@ export default {
         methods: {
             playerChecked (id) {
                 this.checkedId = id
-                // this.$emit('playerChecked', id)
+                this.$router.push(`/players/${id}`)
+            },
+
+            sort(event) {
+                this.desc = !this.desc
+                const by = event.target.innerText.toLowerCase()
+                console.log(event.target.id)
+                this.$emit('sort', by, this.desc)
             },
         },
     }
 </script>
+
+<style scoped>
+.sortable:hover {
+    color: blue;
+    cursor: pointer;
+}
+</style>
