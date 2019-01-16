@@ -1,7 +1,7 @@
 <template>
 <div class="ui stackable grid container">
     <div class="sixteen wide column">
-        <offline @detected-condition="handleConnectivityChange">
+        <offline>
         <div slot="offline" class="ui violet message">
             Offline
         </div>
@@ -74,8 +74,29 @@ const idbPlayers = {
     },
     async keys() {
         const db = await dbPromise
-        return db.transaction('players').objectStore('players').getAllKeys(key)
+        return db.transaction('players').objectStore('players').getAllKeys('id_zawodnika')
     },
+}
+
+const dbPromisePhotos = openDb('photos-store', 1, upgradeDB => {
+    upgradeDB.createObjectStore('photos')
+})
+
+const idbPhotos = {
+    async getPhoto(player_id) {
+        const db = await dbPromisePhotos
+        return db.transaction('photos').objectStore('photos').get(player_id)
+    },
+    async setPhoto(key, val) {
+        const db = await dbPromisePhotos
+        const tx = db.transaction('photos', 'readwrite')
+        tx.objectStore('photos').put(val, key)
+        return tx.complete
+    },
+    async countPhotos() {
+        const db = await dbPromisePhotos
+        return db.transaction('photos').objectStore('photos').count()
+    }
 }
 
 export default {
@@ -92,7 +113,7 @@ export default {
             pageNumber: 1,
             players: [],
             playerCount: '',
-            webStatus: false,
+            webStatus: navigator.onLine,
             notification: {
                 message: '',
                 type: ''
@@ -102,6 +123,7 @@ export default {
 
     created() {
         this.fetchPlayers()
+        console.log("Online = " + navigator.onLine)
     },
 
     computed: {
@@ -125,6 +147,35 @@ export default {
             }
         },
 
+        async getPhotoForPlayer(id) {
+            try {
+                const photo = await axios
+                .get(`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${id}.png`, 
+                {
+                    responseType: 'arraybuffer'
+                })
+                return new Buffer(photo.data, 'binary').toString('base64')
+            } catch(error) {
+                console.log(error)
+            }
+        },
+
+        async fetchPhotos() {
+            const playersWhoWantPhoto = this.players
+            const arrayOfPhotos = playersWhoWantPhoto.map(async player => {
+                return {
+                    id: player.id_zawodnika, 
+                    photo: await this.getPhotoForPlayer(player.id_zawodnika)
+                }
+            })
+            const photos = await Promise.all(arrayOfPhotos)
+            console.log(photos)
+            const arrayOFPhotoPromises = photos.map(async photo => {
+                await idbPhotos.setPhoto(photo.id, photo.photo)
+            })
+            await Promise.all(arrayOFPhotoPromises)
+        },
+
         async fetchPlayers () {
             if(this.webStatus) {
                 axios
@@ -139,8 +190,14 @@ export default {
                     })
 
                     this.players = await idbPlayers.getAllPlayers()
+                    console.log(await idbPhotos.countPhotos())
+                    if(await idbPhotos.countPhotos() < 1) {
+                        await this.fetchPhotos()
+                    }
                 })
                 .catch(async error => {
+                    this.$router.go()
+                    console.log(error)
                     this.notification = Object.assign({}, this.notification, {
                         message: 'API nie odpowiada... Zawodnicy zostaną pobrani z IndexedDB.',
                         type: 'info'
@@ -156,11 +213,6 @@ export default {
                 // Odczytac z IndexedDB
                 this.players = await idbPlayers.getAllPlayers()
             }
-        },
-
-        handleConnectivityChange(status) {
-            this.webStatus = status
-            this.fetchPlayers()
         },
 
         nextPage () {

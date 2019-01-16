@@ -19,5 +19,3 @@ new Vue({
     components: { App },
     template: '<app/>'
 })
-
-

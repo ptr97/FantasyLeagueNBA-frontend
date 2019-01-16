@@ -13,6 +13,7 @@ import SingleOfficialTeam from '@/components/OfficialTeam/SingleOfficialTeam'
 import Home from '@/components/Home'
 import UserProfile from '@/components/User/Profile/UserProfile'
 import PlayersOffline from '@/components/Offline/PlayersOffline'
+import SinglePlayerOffline from '@/components/Offline/SinglePlayerOffline'
 
 Vue.use(Router)
 
@@ -83,6 +84,11 @@ export default new Router({
             path: '/players-offline',
             name: 'PlayersOffline',
             component: PlayersOffline
+        },
+        {
+            path: '/players-offline/:id',
+            name: 'SinglePlayerOffline',
+            component: SinglePlayerOffline
         },
     ]
 })

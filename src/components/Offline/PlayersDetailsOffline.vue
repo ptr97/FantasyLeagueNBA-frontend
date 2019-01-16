@@ -54,7 +54,7 @@ export default {
         methods: {
             playerChecked (id) {
                 this.checkedId = id
-                this.$router.push(`/players/${id}`)
+                this.$router.push(`/players-offline/${id}`)
             },
 
             sort(event) {
