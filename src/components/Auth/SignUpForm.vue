@@ -101,7 +101,7 @@
                         // display error notification
                         this.notification = Object.assign({}, this.notification, {
                             message: error.response.data.message,
-                            type: error.response.data.status,
+                            type: 'error'
                         });
                     });
             },
