@@ -1,6 +1,8 @@
-# fantasy-league-nba-frontend
+# Fantasy League NBA - frontend
 
-> A Vue.js app for NBA Fantasy League.
+A Vue.js app for NBA Fantasy League. Project for Internet Technology course.
+
+Backend for this application - [NBA Fantasy League backend](https://github.com/ptr97/FantasyLeagueNBA-backend).
 
 ## Build Setup
 
